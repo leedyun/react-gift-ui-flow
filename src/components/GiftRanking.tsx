@@ -1,4 +1,4 @@
-import '../styles/GiftRanking.css';
+import './styles/GiftRanking.css';
 
 import React, { useState } from 'react';
 
