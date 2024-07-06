@@ -8,20 +8,23 @@ interface Gift {
   price: string;
   name: string;
   rank: number;
-  category: string;
-  subCategory: string;
+  category: Category;
+  subCategory: SubCategory;
 }
 
+type Category = 'all' | 'women' | 'men' | 'teenagers';
+type SubCategory = 'wanted' | 'gifted' | 'wishlisted';
+
 const GiftRanking: React.FC = () => {
-  const [filter, setFilter] = useState<string>('all');
-  const [subFilter, setSubFilter] = useState<string>('wanted');
+  const [filter, setFilter] = useState<Category>('all');
+  const [subFilter, setSubFilter] = useState<SubCategory>('wanted');
   const [showMore, setShowMore] = useState<boolean>(false);
 
-  const handleFilterChange = (newFilter: string): void => {
+  const handleFilterChange = (newFilter: Category): void => {
     setFilter(newFilter);
   };
 
-  const handleSubFilterChange = (newSubFilter: string): void => {
+  const handleSubFilterChange = (newSubFilter: SubCategory): void => {
     setSubFilter(newSubFilter);
   };
 
@@ -30,8 +33,8 @@ const GiftRanking: React.FC = () => {
   };
 
   const generateGifts = (): Gift[] => {
-    const categories = ['all', 'women', 'men', 'teenagers'];
-    const subCategories = ['wanted', 'gifted', 'wishlisted'];
+    const categories: Category[] = ['all', 'women', 'men', 'teenagers'];
+    const subCategories: SubCategory[] = ['wanted', 'gifted', 'wishlisted'];
     const gifts: Gift[] = [];
 
     categories.forEach(category => {
@@ -63,7 +66,7 @@ const GiftRanking: React.FC = () => {
         <h3>실시간 급상승 선물랭킹</h3>
         <div className="gift-ranking-buttons">
           {['all', 'women', 'men', 'teenagers'].map((category) => (
-            <div key={category} className={`button-container ${filter === category ? 'active' : ''}`} onClick={() => handleFilterChange(category)}>
+            <div key={category} className={`button-container ${filter === category ? 'active' : ''}`} onClick={() => handleFilterChange(category as Category)}>
               <button>
                 <span>{category === 'all' ? 'ALL' : category === 'women' ? '👩🏻‍🦳' : category === 'men' ? '👨🏻‍🦳' : '👦🏻'}</span>
               </button>
@@ -74,7 +77,7 @@ const GiftRanking: React.FC = () => {
       </div>
       <div className="sub-ranking-buttons">
         {['wanted', 'gifted', 'wishlisted'].map((subCategory) => (
-          <button key={subCategory} className={subFilter === subCategory ? 'active' : ''} onClick={() => handleSubFilterChange(subCategory)}>
+          <button key={subCategory} className={subFilter === subCategory ? 'active' : ''} onClick={() => handleSubFilterChange(subCategory as SubCategory)}>
             {subCategory === 'wanted' ? '받고 싶어한' : subCategory === 'gifted' ? '많이 선물한' : '위시로 받은'}
           </button>
         ))}
